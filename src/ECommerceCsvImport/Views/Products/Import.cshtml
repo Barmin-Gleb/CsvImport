@@ -1,0 +1,92 @@
+@model ImportViewModel
+@{
+    ViewData["Title"] = "Импорт товаров";
+}
+
+<h1>Импорт товаров из CSV</h1>
+
+<p class="hint">
+    Выберите CSV-файл на компьютере или укажите путь к файлу на сервере:
+    относительно папки <code>wwwroot</code> (например, <code>/csv/sample_products.csv</code>)
+    либо полный путь на диске.
+</p>
+
+<form method="post" asp-controller="Products" asp-action="Import" enctype="multipart/form-data" class="import-form">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label for="uploadedFile">Файл CSV</label>
+        <input type="file"
+               id="uploadedFile"
+               name="uploadedFile"
+               accept=".csv,text/csv" />
+        <span class="field-note">Максимальный размер — 10 МБ, кодировка UTF-8.</span>
+    </div>
+    <div class="form-separator"><span>или</span></div>
+    <div class="form-group">
+        <label for="filePath">Путь к CSV-файлу на сервере</label>
+        <input type="text"
+               id="filePath"
+               name="filePath"
+               value="@Model.FilePath"
+               placeholder="/csv/sample_products.csv"
+               autocomplete="off" />
+    </div>
+    <button type="submit" class="btn btn-primary">Импортировать товары</button>
+</form>
+
+@if (Model.Result != null)
+{
+    <h2>Результат импорта</h2>
+
+    @if (!string.IsNullOrWhiteSpace(Model.UploadedFileName))
+    {
+        <p class="hint">Загруженный файл: <strong>@Model.UploadedFileName</strong></p>
+    }
+
+    <table class="table summary-table">
+        <thead>
+            <tr>
+                <th>Показатель</th>
+                <th>Значение</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Всего строк</td>
+                <td>@Model.Result.TotalRows</td>
+            </tr>
+            <tr>
+                <td>Успешно импортировано</td>
+                <td>@Model.Result.ImportedCount</td>
+            </tr>
+            <tr>
+                <td>Ошибки</td>
+                <td>@Model.Result.ErrorCount</td>
+            </tr>
+        </tbody>
+    </table>
+
+    @if (Model.Result.Errors.Count > 0)
+    {
+        <h3>Список ошибок</h3>
+        <table class="table errors-table">
+            <thead>
+                <tr>
+                    <th>Строка</th>
+                    <th>Описание ошибки</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var error in Model.Result.Errors)
+                {
+                    <tr>
+                        <td>@error.RowNumber</td>
+                        <td>@error.Message</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <a asp-action="Index" class="btn btn-success">Перейти к списку товаров</a>
+}

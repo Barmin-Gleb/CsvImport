@@ -1,0 +1,29 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio / VS Code
+.vs/
+.vscode/
+.idea/
+
+## Test results
+TestResults/
+*.trx
+!docs/testresults/*.trx
+coverage*.xml
+coverage*.json
+coverage*.info
+
+## OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+## Publish
+publish/
+*.pubxml

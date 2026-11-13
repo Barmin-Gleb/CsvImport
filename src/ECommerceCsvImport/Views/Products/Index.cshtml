@@ -1,0 +1,60 @@
+@model ProductsIndexViewModel
+@{
+    ViewData["Title"] = "Список товаров";
+}
+
+<h1>Товары</h1>
+
+<div class="stat-row">
+    <span>Всего товаров: <strong>@Model.TotalCount</strong></span>
+    <span>Общая стоимость: <strong>@Model.TotalValue.ToString("N0") RUB</strong></span>
+</div>
+
+@if (Model.Products.Count == 0)
+{
+    <div class="alert alert-info">
+        Товары еще не импортированы. Перейдите на страницу импорта и загрузите CSV-файл.
+    </div>
+}
+else
+{
+    <div class="table-scroll">
+        <table class="table products-table">
+            <thead>
+                <tr>
+                    <th>Артикул</th>
+                    <th>Название</th>
+                    <th>Описание</th>
+                    <th>Цена</th>
+                    <th>Валюта</th>
+                    <th>Категория</th>
+                    <th>Остаток</th>
+                    <th>Активен</th>
+                    <th>Бренд</th>
+                    <th>Гарантия, мес.</th>
+                    <th>Модель</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <td>@product.Sku</td>
+                        <td>@product.Name</td>
+                        <td>@product.Description</td>
+                        <td class="nowrap">@product.Price.ToString("N0")</td>
+                        <td>@product.Currency</td>
+                        <td>@product.CategoryName</td>
+                        <td>@product.StockQuantity</td>
+                        <td>@(product.IsActive ? "Да" : "Нет")</td>
+                        <td>@product.Brand</td>
+                        <td>@product.WarrantyMonths</td>
+                        <td>@product.ModelNumber</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<a asp-action="Import" class="btn btn-primary">Импортировать товары</a>

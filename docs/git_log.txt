@@ -1,0 +1,8 @@
+5b442b5  06.11.2026 03:40  Update git log with latest commit in docs
+6ce7d57  06.11.2026 03:39  Support file upload in Import view and add project documentation
+b7ca36c  06.11.2026 03:19  Add unit tests for repository, parser and import service
+25da4c5  06.11.2026 03:19  Add MVC controller and views for product import
+a1e5868  06.11.2026 03:19  Implement product import service with electronics validation
+68c79f3  06.11.2026 03:19  Implement in-memory repository and CSV line parser
+4cfff80  06.11.2026 03:19  Implement product model and view models
+d02b65c  06.11.2026 03:19  Add project scaffold and CSV fixtures
